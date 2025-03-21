@@ -1,4 +1,4 @@
-package com.mapbox.maps.interview.models
+package com.mapbox.maps.interview.search
 
 // TODO migrate to Kotlinx serialization and introduce domain models and mappers for clean architecture
 

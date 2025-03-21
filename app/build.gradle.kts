@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
 
+    implementation (libs.glide)
+
     implementation(project(":core:network"))
     implementation(project(":photomap"))
 

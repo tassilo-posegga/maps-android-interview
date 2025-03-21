@@ -1,13 +1,16 @@
-package com.mapbox.maps.interview.search
+package com.mapbox.maps.domain.search.internal.domain
 
-import com.mapbox.maps.interview.models.MapPhoto
+import com.mapbox.maps.domain.search.internal.data.SearchPhotosApi
+import com.mapbox.maps.domain.search.api.MapPhoto
+import com.mapbox.maps.domain.search.api.SearchPhotos
 
 private const val DEFAULT_SIZE_SUFFIX: String = "b"
 
-class SearchPhotosUseCase(
+internal class SearchPhotosUseCase(
     private val api: SearchPhotosApi
-) {
-    suspend operator fun invoke(searchTerm: String): List<MapPhoto> =
+) : SearchPhotos {
+
+    override suspend operator fun invoke(searchTerm: String): List<MapPhoto> =
         api.fetchImages(searchTerm).photos.photo.mapNotNull { photo ->
             api.fetchLocation(photo.id)?.photo?.location?.let { location ->
                 val url =

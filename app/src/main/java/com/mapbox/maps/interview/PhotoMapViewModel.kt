@@ -2,13 +2,13 @@ package com.mapbox.maps.interview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mapbox.maps.interview.models.MapPhoto
-import com.mapbox.maps.interview.search.SearchPhotosUseCase
+import com.mapbox.maps.domain.search.api.MapPhoto
+import com.mapbox.maps.domain.search.api.SearchPhotos
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class PhotoMapViewModel(
-    private val searchPhotosUseCase: SearchPhotosUseCase
+    private val searchPhotos: SearchPhotos
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PhotoMapUiState>(PhotoMapUiState.Loading)
@@ -16,7 +16,7 @@ class PhotoMapViewModel(
 
     fun onSearchClicked(searchTerm: String) {
         viewModelScope.launch {
-            _uiState.emit(PhotoMapUiState.Success(searchPhotosUseCase(searchTerm)))
+            _uiState.emit(PhotoMapUiState.Success(searchPhotos(searchTerm)))
         }
     }
 }

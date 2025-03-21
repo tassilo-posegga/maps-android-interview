@@ -27,7 +27,8 @@ import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.ViewAnnotationAnchor
 import com.mapbox.maps.ViewAnnotationOptions
-import com.mapbox.maps.interview.models.MapPhoto
+import com.mapbox.maps.domain.search.api.MapPhoto
+import com.mapbox.maps.plugin.gestures.gestures
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -73,7 +74,10 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "state: $it")
                     when (it) {
                         PhotoMapUiState.Loading -> Log.i(TAG, "onCreate: Loading...")
-                        is PhotoMapUiState.Success -> it.result.forEach(::addPhotoToMap)
+                        is PhotoMapUiState.Success -> {
+                            mapView.viewAnnotationManager.removeAllViewAnnotations()
+                            it.result.forEach(::addPhotoToMap)
+                        }
                     }
                 }
             }

@@ -1,6 +1,6 @@
-package com.mapbox.maps.interview.models
+package com.mapbox.maps.domain.search.api
 
-data class MapPhoto(
+public data class MapPhoto(
     val id: String,
     val latitude: Double,
     val longitude: Double,

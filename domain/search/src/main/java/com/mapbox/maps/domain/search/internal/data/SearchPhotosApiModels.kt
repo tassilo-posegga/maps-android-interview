@@ -1,14 +1,13 @@
-package com.mapbox.maps.interview.search
+package com.mapbox.maps.domain.search.internal.data
 
 // TODO migrate to Kotlinx serialization and introduce domain models and mappers for clean architecture
 
-
 // The outermost wrapper for the api response
-data class PhotosSearchResponse(
+internal data class PhotosSearchResponse(
     val photos: PhotosMetaData
 )
 
-data class PhotosMetaData(
+internal data class PhotosMetaData(
     val page: Int,
     val pages: Int,
     val perpage: Int,
@@ -16,7 +15,7 @@ data class PhotosMetaData(
     val photo: List<PhotoResponse>
 )
 
-data class PhotoResponse(
+internal data class PhotoResponse(
     val id: String,
     val owner: String,
     val secret: String,
@@ -30,22 +29,22 @@ data class PhotoResponse(
 
 // Models for fetching location
 
-data class GetLocationResponse(
+internal data class GetLocationResponse(
     val photo: PhotoGeoMetadata
 )
 
-data class PhotoGeoMetadata(
+internal data class PhotoGeoMetadata(
     val id: String,
     val location: LocationResponse
 )
 
-data class LocationResponse(
+internal data class LocationResponse(
     val latitude: String,
     val longitude: String,
     val accuracy: String
 )
 
-data class APIErrorResponse(
+internal data class APIErrorResponse(
     val stat: String?,
     val code: Int?,
     val message: String?

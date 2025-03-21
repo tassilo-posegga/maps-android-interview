@@ -20,3 +20,4 @@
 - Error handling
 - Move map to search results
 - Polish search bar
+- Fallback when photos do not have location information

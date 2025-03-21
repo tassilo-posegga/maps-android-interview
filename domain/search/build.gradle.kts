@@ -34,14 +34,14 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    
     implementation(libs.core.ktx)
     implementation(libs.retrofit)
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-
-    implementation(project(":core:network"))
 
     testImplementation(libs.junit)
 

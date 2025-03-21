@@ -44,25 +44,17 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":domain:search"))
+    implementation(project(":photomap"))
+
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity)
-    implementation(libs.asyncLayoutInflater)
-    implementation(libs.retrofit)
-
-    implementation(libs.mapbox)
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.koin.compose)
-    implementation(libs.koin.compose.viewmodel)
-
-    implementation(libs.glide)
-
-    implementation(project(":core:network"))
-    implementation(project(":domain:search"))
-    implementation(project(":photomap"))
 
     testImplementation(libs.junit)
 

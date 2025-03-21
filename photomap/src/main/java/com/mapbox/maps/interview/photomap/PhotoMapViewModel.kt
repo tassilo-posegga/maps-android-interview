@@ -1,4 +1,4 @@
-package com.mapbox.maps.interview
+package com.mapbox.maps.interview.photomap
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

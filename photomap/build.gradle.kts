@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
@@ -6,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.mapbox.maps.interview.photomap"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
@@ -34,9 +33,20 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":domain:search"))
+
     implementation(libs.core.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.activity)
     implementation(libs.asyncLayoutInflater)
     implementation(libs.mapbox)
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+
+    implementation(libs.glide)
 
     testImplementation(libs.junit)
 

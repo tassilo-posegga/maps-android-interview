@@ -1,4 +1,4 @@
-package com.mapbox.maps.interview
+package com.mapbox.maps.interview.photomap
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -28,13 +28,12 @@ import com.mapbox.maps.MapView
 import com.mapbox.maps.ViewAnnotationAnchor
 import com.mapbox.maps.ViewAnnotationOptions
 import com.mapbox.maps.domain.search.api.MapPhoto
-import com.mapbox.maps.plugin.gestures.gestures
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class PhotoMapActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private val viewModel: PhotoMapViewModel by viewModel()
 

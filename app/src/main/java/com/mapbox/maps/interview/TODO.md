@@ -14,6 +14,7 @@
 - Introduce Clean Architecture
 - Abstract DTOs and domain models
 - Check what the empty module is about
+- Think about modularisation
 
 ## Quality
 
@@ -25,3 +26,5 @@
 
 - Allow zooming
 - Error handling
+- Move map to search results
+- Polish search bar

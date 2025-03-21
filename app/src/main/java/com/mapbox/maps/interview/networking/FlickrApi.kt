@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 const val FLICKR_API_KEY = "3e7cc266ae2b0e0d78e279ce8e361736"
 
-interface ApiService {
+interface FlickrApi {
     @GET("?method=flickr.photos.search&format=json&nojsoncallback=1&api_key=$FLICKR_API_KEY")
     suspend fun fetchImages(@Query(value = "text") searchTerm: String): PhotosSearchResponse
 

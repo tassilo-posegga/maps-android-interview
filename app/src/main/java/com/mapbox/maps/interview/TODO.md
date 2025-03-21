@@ -19,3 +19,9 @@
 
 - Check why the search function isn't working
 - Write unit tests
+- Enable observability, e.g. Crashlytics, Datadog, ...
+
+## UI/UX
+
+- Allow zooming
+- Error handling

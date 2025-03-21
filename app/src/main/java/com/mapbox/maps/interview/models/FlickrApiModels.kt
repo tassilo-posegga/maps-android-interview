@@ -1,5 +1,8 @@
 package com.mapbox.maps.interview.models
 
+// TODO migrate to Kotlinx serialization and introduce domain models and mappers for clean architecture
+
+
 // The outermost wrapper for the api response
 data class PhotosSearchResponse(
     val photos: PhotosMetaData

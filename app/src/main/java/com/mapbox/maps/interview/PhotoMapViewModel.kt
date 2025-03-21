@@ -22,15 +22,18 @@ import okhttp3.Request
 
 private const val DEFAULT_SIZE_SUFFIX: String = "b"
 
-class MainActivityViewModel : ViewModel() {
+class PhotoMapViewModel : ViewModel() {
 
     private val searchResponse = flow {
+        // TODO fix search term and move to domain/data layer
         emit(WebClient.client.fetchImages("parks").photos.photo)
     }
 
-    val uiState: Flow<MainActivityUiState> = searchResponse
+    // TODO why not use StateFlow?
+    val uiState: Flow<PhotoMapUiState> = searchResponse
         .mapNotNull { photos: List<PhotoResponse> ->
             val mapPhotos = photos.mapNotNull { photo ->
+                // TODO move to domain/data layer
                 WebClient.client.fetchLocation(photo.id)?.photo?.location?.let { location ->
                     val url =
                         "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_${DEFAULT_SIZE_SUFFIX}.jpg"
@@ -44,13 +47,14 @@ class MainActivityViewModel : ViewModel() {
                     }
                 }
             }
-            MainActivityUiState.Success(mapPhotos)
+            PhotoMapUiState.Success(mapPhotos)
         }.stateIn(
             scope = viewModelScope,
-            initialValue = MainActivityUiState.Loading,
+            initialValue = PhotoMapUiState.Loading,
             started = SharingStarted.WhileSubscribed(5_000),
         )
 
+    // TODO move to domain/data layer
     private suspend fun fetchImage(url: String): Bitmap? = withContext(Dispatchers.IO) {
         val request = Request.Builder().url(url).build()
         val response = WebClient.okHttpClient.newCall(request).execute()
@@ -74,7 +78,7 @@ class MainActivityViewModel : ViewModel() {
     }
 }
 
-sealed interface MainActivityUiState {
-    data object Loading : MainActivityUiState
-    data class Success(val result: List<MapPhoto>) : MainActivityUiState
+sealed interface PhotoMapUiState {
+    data object Loading : PhotoMapUiState
+    data class Success(val result: List<MapPhoto>) : PhotoMapUiState
 }

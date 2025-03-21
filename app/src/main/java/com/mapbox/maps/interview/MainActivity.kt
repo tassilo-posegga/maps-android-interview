@@ -26,13 +26,14 @@ private const val TAG = "MainActivity"
 
 class MainActivity : ComponentActivity() {
     private lateinit var mapView: MapView
-    private val viewModel: MainActivityViewModel by viewModels<MainActivityViewModel>()
+    private val viewModel: PhotoMapViewModel by viewModels<PhotoMapViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO once migrated to compose use Scaffold and get rid of this
         val rootView = findViewById<View>(android.R.id.content)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, insets ->
             val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
@@ -40,6 +41,7 @@ class MainActivity : ComponentActivity() {
             insets
         }
 
+        // TODO migrate to compose
         mapView = findViewById(R.id.mapView)
         mapView.getMapboxMap().setCamera(
             CameraOptions.Builder()
@@ -55,8 +57,8 @@ class MainActivity : ComponentActivity() {
                 viewModel.uiState.collect {
                     Log.d(TAG, "state: $it")
                     when (it) {
-                        MainActivityUiState.Loading -> Log.i(TAG, "onCreate: Loading...")
-                        is MainActivityUiState.Success -> it.result.forEach(::addPhotoToMap)
+                        PhotoMapUiState.Loading -> Log.i(TAG, "onCreate: Loading...")
+                        is PhotoMapUiState.Success -> it.result.forEach(::addPhotoToMap)
                     }
                 }
             }

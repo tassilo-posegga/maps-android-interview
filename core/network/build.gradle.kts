@@ -1,23 +1,17 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
 }
 
 android {
-    namespace = "com.mapbox.maps.interview"
+    namespace = "com.mapbox.maps.core.network"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.mapbox.maps.interview"
         minSdk = 21
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -36,29 +30,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity)
-    implementation(libs.asyncLayoutInflater)
     implementation(libs.retrofit)
-    implementation(libs.mapbox)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging)
 
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.compose)
-    implementation(libs.koin.compose.viewmodel)
-
-    implementation(project(":core:network"))
-    implementation(project(":photomap"))
 
     testImplementation(libs.junit)
 

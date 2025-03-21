@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mapbox.maps.interview.models.MapPhoto
 import com.mapbox.maps.interview.models.PhotoResponse
-import com.mapbox.maps.interview.networking.WebClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,14 +18,20 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import okhttp3.Request
+import androidx.core.graphics.createBitmap
+import com.mapbox.maps.interview.networking.FlickrApi
+import okhttp3.OkHttpClient
 
 private const val DEFAULT_SIZE_SUFFIX: String = "b"
 
-class PhotoMapViewModel : ViewModel() {
+class PhotoMapViewModel(
+    private val okHttpClient: OkHttpClient,
+    private val flickrApi: FlickrApi,
+) : ViewModel() {
 
     private val searchResponse = flow {
         // TODO fix search term and move to domain/data layer
-        emit(WebClient.client.fetchImages("parks").photos.photo)
+        emit(flickrApi.fetchImages("parks").photos.photo)
     }
 
     // TODO why not use StateFlow?
@@ -34,7 +39,7 @@ class PhotoMapViewModel : ViewModel() {
         .mapNotNull { photos: List<PhotoResponse> ->
             val mapPhotos = photos.mapNotNull { photo ->
                 // TODO move to domain/data layer
-                WebClient.client.fetchLocation(photo.id)?.photo?.location?.let { location ->
+                flickrApi.fetchLocation(photo.id)?.photo?.location?.let { location ->
                     val url =
                         "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_${DEFAULT_SIZE_SUFFIX}.jpg"
                     fetchImage(url)?.let { bitmap ->
@@ -54,10 +59,10 @@ class PhotoMapViewModel : ViewModel() {
             started = SharingStarted.WhileSubscribed(5_000),
         )
 
-    // TODO move to domain/data layer
+    // TODO use image loading library
     private suspend fun fetchImage(url: String): Bitmap? = withContext(Dispatchers.IO) {
         val request = Request.Builder().url(url).build()
-        val response = WebClient.okHttpClient.newCall(request).execute()
+        val response = okHttpClient.newCall(request).execute()
         if (response.isSuccessful) {
             response.body?.source()?.readByteArray()?.let { bytes ->
                 BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
@@ -72,7 +77,7 @@ class PhotoMapViewModel : ViewModel() {
             val ma = ColorMatrix().apply { setSaturation(0f) }
             setColorFilter(ColorMatrixColorFilter(ma))
         }
-        val bmpMonochrome = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val bmpMonochrome = createBitmap(width, height)
         Canvas(bmpMonochrome).drawBitmap(this, 0F, 0F, paint)
         return bmpMonochrome
     }

@@ -21,12 +21,13 @@ import com.mapbox.maps.ViewAnnotationAnchor
 import com.mapbox.maps.ViewAnnotationOptions
 import com.mapbox.maps.interview.models.MapPhoto
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "MainActivity"
 
 class MainActivity : ComponentActivity() {
     private lateinit var mapView: MapView
-    private val viewModel: PhotoMapViewModel by viewModels<PhotoMapViewModel>()
+    private val viewModel: PhotoMapViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()

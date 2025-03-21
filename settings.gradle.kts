@@ -27,3 +27,4 @@ dependencyResolutionManagement {
 
 include(":app")
 include(":photomap")
+include(":core:network")
